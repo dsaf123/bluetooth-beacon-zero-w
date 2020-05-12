@@ -44,7 +44,7 @@ def bluetooth_listen(
     @type: debug: bool
     """
     client1= paho.Client("bb2")                           #create client object
-    username_pw_set("bb2", password="bb2")
+    client1.username_pw_set("bb2", password="bb2")
     client1.on_publish = on_publish                          #assign function to callback
     client1.connect(broker,port)                                 #establish connection
     while True:
