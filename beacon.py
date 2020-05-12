@@ -4,6 +4,9 @@ import datetime
 import time
 import threading
 import sys
+import paho.mqtt.client as paho
+broker="192.168.0.46"
+port=1883
 
 # List of bluetooth addresses to scan
 BT_ADDR_LIST = ["A0:10:81:A2:D8:7C"]
@@ -11,6 +14,10 @@ DAILY = True  # Set to True to invoke callback only once per day per address
 DEBUG = True  # Set to True to print out debug messages
 THRESHOLD = (-10, 10)
 SLEEP = 1
+
+def on_publish(client,userdata,result):             #create function for callback
+    print("data published \n")
+    pass
 
 
 def dummy_callback():
@@ -36,10 +43,14 @@ def bluetooth_listen(
                    actually sleep until tomorrow if `daily` is True.
     @type: debug: bool
     """
-    
+    client1= paho.Client("bb2")                           #create client object
+    username_pw_set("bb2", password="bb2")
+    client1.on_publish = on_publish                          #assign function to callback
+    client1.connect(broker,port)                                 #establish connection
     while True:
         b = BluetoothRSSI(addr=addr)
         rssi = b.get_rssi()
+        ret= client1.publish("sensor/bb2/andrewphone",rssi) 
         if debug:
             print "---"
             print "addr: {}, rssi: {}".format(addr, rssi)
