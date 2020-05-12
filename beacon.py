@@ -36,8 +36,9 @@ def bluetooth_listen(
                    actually sleep until tomorrow if `daily` is True.
     @type: debug: bool
     """
-    b = BluetoothRSSI(addr=addr)
+    
     while True:
+        b = BluetoothRSSI(addr=addr)
         rssi = b.get_rssi()
         if debug:
             print "---"
